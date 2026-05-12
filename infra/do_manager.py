@@ -46,7 +46,6 @@ def destroy_droplet(droplet_id: str):
 
 if __name__ == "__main__":
     job_id = "hackathon-test-99"
-    # Paste your webhook.site URL here!
     mock_backend_url = "https://webhook.site/a44245eb-7154-40c9-8272-9f5d5f72d63f" 
     
     script = generate_bash_script(job_id, mock_backend_url)
@@ -55,8 +54,7 @@ if __name__ == "__main__":
     did = create_worker_droplet(job_id, script)
     
     # 2. Wait for it to do its job. 
-    # The script takes about 40 seconds to run. Let's wait 60 to be safe.
-    print("Droplet created. Waiting 60 seconds for the cloud-init script to run and fire the webhook...")
+    print("Droplet created. Waiting 180 seconds for the cloud-init script to run and fire the webhook...")
     time.sleep(180)
     
     # 3. Clean up
