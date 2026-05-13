@@ -2,6 +2,14 @@
 .env
 __pycache__/
 *.pyc
+
 backend/.venv/
 backend/trainops.db
 backend/*.db
+
+# Frontend (Next.js)
+frontend/node_modules/
+frontend/.next/
+frontend/.env.local
+frontend/.env*.local
+frontend/.vercel
