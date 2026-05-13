@@ -3,12 +3,12 @@ import time
 import requests
 from worker_payload import generate_bash_script
 
-# Get this from your DigitalOcean Dashboard (API -> Generate New Token)
-DO_TOKEN = os.getenv("DO_TOKEN")
-HEADERS = {
-    "Authorization": f"Bearer {DO_TOKEN}",
-    "Content-Type": "application/json"
-}
+def get_headers():
+    token = os.getenv("DO_TOKEN")
+    return {
+        "Authorization": f"Bearer {token}",
+        "Content-Type": "application/json"
+    }
 
 def create_worker_droplet(job_id: str, user_data_script: str):
     """Creates a Droplet and injects the worker script to run on boot."""
@@ -23,7 +23,7 @@ def create_worker_droplet(job_id: str, user_data_script: str):
         "tags": ["trainops-demo"]
     }
     
-    response = requests.post("https://api.digitalocean.com/v2/droplets", json=data, headers=HEADERS)
+    response = requests.post("https://api.digitalocean.com/v2/droplets", json=data, headers=get_headers())
     
     if response.status_code == 202:
         droplet_id = response.json()["droplet"]["id"]
@@ -35,7 +35,7 @@ def create_worker_droplet(job_id: str, user_data_script: str):
 def destroy_droplet(droplet_id: str):
     """Nukes the Droplet to stop billing."""
     print(f"Destroying Droplet {droplet_id}...")
-    response = requests.delete(f"https://api.digitalocean.com/v2/droplets/{droplet_id}", headers=HEADERS)
+    response = requests.delete(f"https://api.digitalocean.com/v2/droplets/{droplet_id}", headers=get_headers())
     
     if response.status_code == 204:
         print("Droplet destroyed successfully.")
